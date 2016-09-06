@@ -20,8 +20,8 @@ RUN apt-get install --no-install-recommends -y build-essential \
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV keyboard=ergodox
-ENV keymap=default
+ENV keyboard=planck
+ENV keymap=unusedphd
 
 VOLUME /qmk
 WORKDIR /qmk
