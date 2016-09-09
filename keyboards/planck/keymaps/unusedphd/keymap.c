@@ -10,17 +10,19 @@ extern keymap_config_t keymap_config;
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 #define _QWERTY 0
 #define _NUMPAD 1
-#define _SWITCH 2
-#define _LOWER 3
-#define _RAISE 4
-#define _FUNCTION 5
-#define _SOUND 6
-#define _MOVE 7
+#define _VNUMPAD 2
+#define _SWITCH 3
+#define _LOWER 4
+#define _RAISE 5
+#define _FUNCTION 6
+#define _SOUND 7
+#define _MOVE 8
 #define _ADJUST 16
 
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
   NPAD,
+  VPAD,
   SWITCH,
   LOWER,
   RAISE,
@@ -51,14 +53,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 },
 
 [_NUMPAD] = {
-  {_______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    KC_PSLS,  KC_BSPC},
-  {_______, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_4,    KC_5,    KC_6,    KC_PAST,  KC_DEL},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    KC_PMNS,  KC_PEQL},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_0,    KC_DOT,  KC_PPLS,  KC_PENT}
+  {_______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    KC_PSLS, KC_BSPC},
+  {_______, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_4,    KC_5,    KC_6,    KC_PAST, KC_DEL},
+  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    KC_PMNS, KC_PEQL},
+  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_0,    KC_DOT,  KC_PPLS, KC_PENT}
+},
+
+[_VNUMPAD] = {
+  {_______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSLS, KC_BSPC, KC_PMNS, KC_PPLS, KC_PENT},
+  {_______, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAST, KC_9,    KC_6,    KC_3,    KC_DOT},
+  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_8,    KC_5,    KC_2,    KC_0},
+  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_7,    KC_4,    KC_1,    _______}
 },
 
 [_SWITCH] = {
-  {_______, QWERTY,  _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGUP},
+  {_______, QWERTY,  _______, VPAD,    _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGUP},
   {_______, _______, SOUND,   NPAD,    FKEY,    _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_END,  KC_PGDN},
   {_______, _______, _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_UP,   _______},
   {_______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT}
@@ -142,7 +151,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         persistant_default_layer_set(1UL<<_NUMPAD);
       }
       return false;
-      break;
+    case VPAD:
+      if (record->event.pressed) {
+        #ifdef AUDIO_ENABLE
+          PLAY_NOTE_ARRAY(tone_colemak, false, 0);
+        #endif
+        persistant_default_layer_set(1UL<<_VNUMPAD);
+      }
+      return false;
+      break;     break;
     case SWITCH:
       if (record->event.pressed) {
         layer_on(_SWITCH);
