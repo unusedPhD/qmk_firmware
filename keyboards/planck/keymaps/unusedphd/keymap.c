@@ -7,6 +7,14 @@
 
 extern keymap_config_t keymap_config;
 
+// Fillers to make layering more clear
+#define _______ KC_TRNS
+#define XXXXXXX KC_NO
+
+// Custom macros
+#define CTL_ESC  CTL_T(KC_ESC)  // Tap for Esc, hold for Ctrl
+#define SFT_ENT  SFT_T(KC_ENT)  // Tap for Enter, hold for Shift
+
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 #define _QWERTY 0
 #define _NUMPAD 1
@@ -31,18 +39,6 @@ enum planck_keycodes {
   SOUND
 };
 
-// Fillers to make layering more clear
-#define _______ KC_TRNS
-#define XXXXXXX KC_NO
-
-// Custom macros
-#define CTL_ESC     CTL_T(KC_ESC)               // Tap for Esc, hold for Ctrl
-#define SFT_ENT     SFT_T(KC_ENT)               // Tap for Enter, hold for Shift
-
-// leader key
-#define LEADER_TIMEOUT 300
-
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = {
@@ -60,10 +56,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 },
 
 [_VNUMPAD] = {
-  {_______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSLS, KC_BSPC, KC_PMNS, KC_PPLS, KC_PENT},
-  {_______, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAST, KC_9,    KC_6,    KC_3,    KC_DOT},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_8,    KC_5,    KC_2,    KC_0},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_7,    KC_4,    KC_1,    _______}
+  {_______, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_MNXT, XXXXXXX, KC_PSLS, KC_BSPC, KC_PMNS, KC_PPLS, KC_PENT},
+  {_______, XXXXXXX, XXXXXXX, _______, XXXXXXX, KC_MPRV, XXXXXXX, KC_PAST, KC_9,    KC_6,    KC_3,    KC_DOT},
+  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_MPLY, KC_MUTE, XXXXXXX, KC_8,    KC_5,    KC_2,    KC_0},
+  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, KC_VOLU, KC_VOLD, XXXXXXX, KC_7,    KC_4,    KC_1,    KC_0}
 },
 
 [_SWITCH] = {
@@ -116,7 +112,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 }
 
 };
-
 
 #ifdef AUDIO_ENABLE
 float tone_startup[][2] = SONG(STARTUP_SOUND);
@@ -246,6 +241,9 @@ void music_scale_user(void)
     PLAY_NOTE_ARRAY(music_scale, false, 0);
 }
 #endif
+
+// leader key
+#define LEADER_TIMEOUT 300
 
 LEADER_EXTERNS();
 
