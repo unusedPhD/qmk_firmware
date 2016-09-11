@@ -56,8 +56,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 },
 
 [_VNUMPAD] = {
-  {_______, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_MNXT, XXXXXXX, KC_PSLS, KC_BSPC, KC_PMNS, KC_PPLS, KC_PENT},
-  {_______, XXXXXXX, XXXXXXX, _______, XXXXXXX, KC_MPRV, XXXXXXX, KC_PAST, KC_9,    KC_6,    KC_3,    KC_DOT},
+  {_______, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_MNXT, XXXXXXX, KC_PAST, KC_BSPC, KC_PMNS, KC_PPLS, KC_PENT},
+  {_______, XXXXXXX, XXXXXXX, _______, XXXXXXX, KC_MPRV, XXXXXXX, KC_PSLS, KC_9,    KC_6,    KC_3,    KC_DOT},
   {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_MPLY, KC_MUTE, XXXXXXX, KC_8,    KC_5,    KC_2,    KC_0},
   {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, KC_VOLU, KC_VOLD, XXXXXXX, KC_7,    KC_4,    KC_1,    KC_0}
 },
@@ -99,8 +99,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_SOUND] = {
   {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
+  {_______, _______, _______, _______, _______, _______, _______, KC_MPLY, KC_MNXT, _______, _______, _______},
+  {_______, _______, _______, _______, _______, _______, _______, KC_VOLD, KC_VOLU, KC_MUTE, _______, _______},
   {_______, _______, _______, _______, _______, _______, _______, _______, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU}
 },
 
