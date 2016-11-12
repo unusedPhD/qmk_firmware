@@ -15,95 +15,52 @@ extern keymap_config_t keymap_config;
 #define CTL_ESC  CTL_T(KC_ESC)       // Tap for Esc, hold for Ctrl
 #define SFT_ENT  SFT_T(KC_ENT)       // Tap for Enter, hold for Shift
 #define SFT_BSP  SFT_T(KC_BSPC)      // Tap for Enter, hold for Shift
-#define SPFN     LT(_RAISE, KC_SPC)  // Tap for space, hold for raise layer
-#define DASHFN   LT(_LOWER, KC_MINS) // Tap for dash, hold for lower layer
+#define SP_DW    LT(_LOWER, KC_SPC)  // Tap for space, hold for lower layer
+#define SP_UP    LT(_RAISE, KC_SPC)  // Tap for space, hold for raise layer
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 #define _QWERTY 0
 #define _NUMPAD 1
-#define _VNUMPAD 2
-#define _SWITCH 3
-#define _LOWER 4
-#define _RAISE 5
-#define _FUNCTION 6
-#define _SOUND 7
-#define _MOVE 8
+#define _LOWER 2
+#define _RAISE 3
+#define _MOVE 4
 #define _ADJUST 16
 
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
   NPAD,
-  VPAD,
-  SWITCH,
   LOWER,
   RAISE,
-  FKEY,
-  MOVE,
-  SOUND
+  MOVE
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = {
   {KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC},
-  {CTL_ESC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT},
+  {CTL_ESC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT},
   {KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SFT_ENT},
-  {KC_LEAD, KC_LCTL, KC_LGUI, KC_LALT, DASHFN,  SFT_BSP, SFT_ENT, SPFN,    MOVE,    KC_MINS, KC_UNDS, KC_PENT}
+  {NPAD,    KC_LCTL, KC_LGUI, KC_LALT, SP_DW,   SFT_BSP, SFT_ENT, SP_UP,   MOVE,    KC_MINS, KC_UNDS, KC_PENT}
 },
 
 [_NUMPAD] = {
-  {_______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    KC_PSLS, KC_BSPC},
-  {_______, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_4,    KC_5,    KC_6,    KC_PAST, KC_DEL},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    KC_PMNS, KC_PEQL},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, KC_0,    KC_DOT,  KC_PPLS, KC_PENT}
-},
-
-[_VNUMPAD] = {
-  {_______, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_MNXT, XXXXXXX, KC_PAST, KC_BSPC, KC_PMNS, KC_PPLS, KC_PENT},
-  {_______, XXXXXXX, XXXXXXX, _______, XXXXXXX, KC_MPRV, XXXXXXX, KC_PSLS, KC_9,    KC_6,    KC_3,    KC_DOT},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_MPLY, KC_MUTE, XXXXXXX, KC_8,    KC_5,    KC_2,    KC_0},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, KC_VOLU, KC_VOLD, XXXXXXX, KC_7,    KC_4,    KC_1,    KC_0}
-},
-
-[_SWITCH] = {
-  {_______, QWERTY,  _______, VPAD,    _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGUP},
-  {_______, _______, SOUND,   NPAD,    FKEY,    _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_END,  KC_PGDN},
-  {_______, _______, _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_UP,   _______},
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT}
+  {_______, _______, _______, _______, _______, _______, _______, KC_7,    KC_8,    KC_9,    KC_PSLS, KC_BSPC},
+  {_______, _______, _______, _______, _______, _______, _______, KC_4,    KC_5,    KC_6,    KC_PAST, KC_DEL},
+  {_______, _______, _______, _______, _______, _______, _______, KC_1,    KC_2,    KC_3,    KC_PMNS, KC_PEQL},
+  {_______, _______, _______, _______, _______, _______, _______, KC_0,    KC_0,    KC_DOT,  KC_PPLS, KC_PENT}
 },
 
 [_LOWER] = {
-  {KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL},
-  {_______, _______, _______, _______, _______, _______, _______, KC_MINS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE},
-  {_______, _______, _______, _______, _______, _______, _______, KC_UNDS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS},
+  {KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_DEL},
+  {KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS, KC_PIPE},
+  {KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12},
   {_______, _______, _______, _______, _______, _______, _______, _______, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU}
 },
 
 [_RAISE] = {
-  {KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL},
-  {_______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX},
-  {_______, KC_F5,   KC_F6,   KC_F7,   KC_F9,   XXXXXXX, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX, XXXXXXX},
-  {_______, KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______, _______, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU}
-},
-
-[_ADJUST] = {
-  {MU_ON,   AU_ON,   MUV_IN,  MI_ON,   AG_NORM, _______, _______, _______, _______, _______, _______, RESET},
-  {MU_OFF,  AU_OFF,  MUV_DE,  MI_OFF,  AG_SWAP, _______, _______, _______, _______, _______, _______, _______},
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______}
-},
-
-[_FUNCTION] = {
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F4},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_F5,   KC_F6,   KC_F7,   KC_F9},
-  {XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, KC_F9,   KC_F10,  KC_F11,  KC_F12}
-},
-
-[_SOUND] = {
-  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______},
-  {_______, _______, _______, _______, _______, _______, _______, KC_MPLY, KC_MNXT, _______, _______, _______},
-  {_______, _______, _______, _______, _______, _______, _______, KC_VOLD, KC_VOLU, KC_MUTE, _______, _______},
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL},
+  {_______, _______, _______, _______, _______, XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, KC_QUOT},
+  {_______, _______, _______, _______, _______, XXXXXXX, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX, XXXXXXX},
   {_______, _______, _______, _______, _______, _______, _______, _______, KC_MPLY, KC_MNXT, KC_VOLD, KC_VOLU}
 },
 
@@ -143,62 +100,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case NPAD:
       if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_NOTE_ARRAY(tone_dvorak, false, 0);
-        #endif
-        persistant_default_layer_set(1UL<<_NUMPAD);
-      }
-      return false;
-    case VPAD:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_NOTE_ARRAY(tone_colemak, false, 0);
-        #endif
-        persistant_default_layer_set(1UL<<_VNUMPAD);
-      }
-      return false;
-      break;     break;
-    case SWITCH:
-      if (record->event.pressed) {
-        layer_on(_SWITCH);
+        layer_on(_NUMPAD);
       } else {
-        layer_off(_SWITCH);
+        layer_off(_NUMPAD);
       }
       return false;
       break;
     case LOWER:
       if (record->event.pressed) {
         layer_on(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       } else {
         layer_off(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       }
       return false;
       break;
     case RAISE:
       if (record->event.pressed) {
         layer_on(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
       } else {
         layer_off(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case FKEY:
-      if (record->event.pressed) {
-        layer_on(_FUNCTION);
-      } else {
-        layer_off(_FUNCTION);
-      }
-      return false;
-      break;
-    case SOUND:
-      if (record->event.pressed) {
-        layer_on(_SOUND);
-      } else {
-        layer_off(_SOUND);
       }
       return false;
       break;
@@ -244,20 +164,3 @@ void music_scale_user(void)
     PLAY_NOTE_ARRAY(music_scale, false, 0);
 }
 #endif
-
-// leader key
-#define LEADER_TIMEOUT 300
-
-LEADER_EXTERNS();
-
-void matrix_scan_user(void) {
-  LEADER_DICTIONARY() {
-    leading = false;
-    leader_end();
-
-    SEQ_ONE_KEY(KC_M) {
-      SEND_STRING("mainstreet");
-    }
-
-  }
-}
