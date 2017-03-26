@@ -50,6 +50,10 @@ ifeq ($(strip $(EXTRAKEY_ENABLE)), yes)
     TMK_COMMON_DEFS += -DEXTRAKEY_ENABLE
 endif
 
+ifeq ($(strip $(RAW_ENABLE)), yes)
+    TMK_COMMON_DEFS += -DRAW_ENABLE
+endif
+
 ifeq ($(strip $(CONSOLE_ENABLE)), yes)
     TMK_COMMON_DEFS += -DCONSOLE_ENABLE
 else
@@ -73,6 +77,14 @@ endif
 ifeq ($(strip $(SLEEP_LED_ENABLE)), yes)
     TMK_COMMON_SRC += $(PLATFORM_COMMON_DIR)/sleep_led.c
     TMK_COMMON_DEFS += -DSLEEP_LED_ENABLE
+    TMK_COMMON_DEFS += -DNO_SUSPEND_POWER_DOWN
+endif
+
+ifeq ($(strip $(NO_UART)), yes)
+    TMK_COMMON_DEFS += -DNO_UART
+endif
+
+ifeq ($(strip $(NO_SUSPEND_POWER_DOWN)), yes)
     TMK_COMMON_DEFS += -DNO_SUSPEND_POWER_DOWN
 endif
 
