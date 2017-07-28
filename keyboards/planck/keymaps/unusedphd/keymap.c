@@ -12,11 +12,12 @@ extern keymap_config_t keymap_config;
 #define XXXXXXX KC_NO
 
 // Custom macros
-#define CTL_ESC  CTL_T(KC_ESC)       // Tap for Esc, hold for Ctrl
+#define CTL_ESC  CTL_T(KC_ESC)       // Tap for tab, hold for Ctrl
 #define SFT_SP   SFT_T(KC_SPC)       // Tap for space, hold for Shift
-#define SFT_BSP  SFT_T(KC_BSPC)      // Tap for backspace, hold for Shift
-#define SFT_ENT  SFT_T(KC_ENT)      // Tap for Enter, hold for Shift
+#define SFT_DEL  SFT_T(KC_DEL)       // Tap for delete, hold for Shift
+#define SFT_ENT  SFT_T(KC_ENT)       // Tap for enter, hold for Shift
 #define SP_DW    LT(_LOWER, KC_SPC)  // Tap for space, hold for lower layer
+#define BSPC_DW  LT(_LOWER, KC_BSPC) // Tap for space, hold for lower layer
 #define SP_UP    LT(_RAISE, KC_SPC)  // Tap for space, hold for raise layer
 #define LFT_MVE  LT(_MOVE, KC_LEFT)  // Tap for space, hold for raise layer
 
@@ -40,9 +41,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = {
   {KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC},
-  {CTL_ESC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT},
-  {KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SFT_ENT},
-  {NPAD,    KC_LCTL, KC_LGUI, KC_LALT, SP_DW,   SFT_BSP, SFT_SP,  SP_UP,   LFT_MVE, KC_DOWN, KC_UP,   KC_RGHT}
+  {CTL_ESC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT},
+  {KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_LSFT},
+  {NPAD,    KC_LCTL, KC_LALT, KC_LGUI, BSPC_DW, SFT_DEL, SFT_ENT, SP_UP,   LFT_MVE, KC_DOWN, KC_UP,   KC_RGHT}
 },
 
 [_NUMPAD] = {
