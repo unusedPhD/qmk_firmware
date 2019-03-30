@@ -9,8 +9,7 @@ extern keymap_config_t keymap_config;
 #define _QWERTY 0
 #define _LOWER 3
 #define _RAISE 4
-#define _TOUCHCURSOR 6
-#define _MOUSECURSOR 7
+#define _MOVE 6
 #define _ADJUST 16
 
 // Keycodes
@@ -41,94 +40,76 @@ enum macro_keycodes {
 
 // Fillers to make layering more clear
 #define _______ KC_TRNS
-#define XXXXXXX KC_NO
 
 // Custom macros
-#define CTL_ESC     CTL_T(KC_ESC)               // Tap for Esc, hold for Ctrl
-#define SFT_ENT     SFT_T(KC_ENT)               // Tap for Enter, hold for Shift
-#define HPR_TAB     ALL_T(KC_TAB)               // Tap for Tab, hold for Hyper
-#define GUI_SEM     GUI_T(KC_SCLN)              // Tap for Semicolon, hold for GUI
-#define ALT_QUO     ALT_T(KC_QUOT)              // Tap for Quote, hold for Alt
+#define CTL_ESC CTL_T(KC_ESC)      // Tap for Esc, hold for Ctrl
+#define SFT_ENT SFT_T(KC_ENT)      // Tap for Enter, hold for Shift
+#define TC_BKSP LT(_MOVE, KC_BSPC)
+#define TC_SP   LT(_MOVE, KC_SPC)
 
-// Requires KC_TRNS/_______ for the trigger key in the destination layer
-#define TC_BKSP     LT(_TOUCHCURSOR, KC_BSPC)   // L-ayer T-ap T-ouch C-ursor
-#define TC_SP       LT(_TOUCHCURSOR, KC_SPC)    // L-ayer T-ap T-ouch C-ursor
-#define LT_MC(kc)   LT(_MOUSECURSOR, kc)        // L-ayer T-ap M-ouse C-ursor
-#define ALT_TAB     M(KC_ALT_TAB)               // Macro for Alt-Tab
-#define CMD_TAB     M(KC_CMD_TAB)               // Macro for Cmd-Tab
-#define CTL_TAB     M(KC_CTL_TAB)               // Macro for Ctl-Tab
-#define CMD_SLSH    M(KC_CMD_SLSH)              // Macro for Cmd-Slash (personal shortcut to toggle iTerm2 visibility)
-#define AG_FIND     M(KC_AG_FIND)               // Macros for Cmd-[x] vs Ctrl-[x] based on current AG_NORM or AG_SWAP settings
-#define AG_AGAIN    M(KC_AG_AGAIN)
-#define AG_UNDO     M(KC_AG_UNDO)
-#define AG_CUT      M(KC_AG_CUT)
-#define AG_COPY     M(KC_AG_COPY)
-#define AG_PASTE    M(KC_AG_PASTE)
-#define AG_D_L      M(KC_AG_DESK_L)             // For Virtual Desktop Switching: Left, and
-#define AG_D_R      M(KC_AG_DESK_R)             //                                Right
-#define AG_T_C      M(KC_AG_TAB_C)              // For Chrome, etc. Tab Close,
-#define AG_T_N      M(KC_AG_TAB_N)              //                  Tab New, and
-#define AG_T_R      M(KC_AG_TAB_R)              //                  Tab Reopen Closed
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+
 
 /* Qwerty
  *
  * ,---------+------+------+------+------+------+------+------+------+------+------+------+------.
  * |   Tab   |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp | Bksp |
  * |---------`------`------`------`------`------`------`------`------`------`------`------`------|
- * | Ctrl/Esc |   A  |   S  | MC/D |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |     '      |
+ * | Ctrl/Esc |   A  |   S  |  D   |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |     '      |
  * |----------`------`------`------`------`------`------`------`------`------`------`------------|
  * |   Shift   |   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |  Sft/Ent  |
  * |-----------`------`------`------`------`-----'-------`------`------`------`------`-----------|
- * |  Right |  Alt  |  Cmd  | Lower | TC/Bcks  | TC/Space |  Raise  |  Down  |  Up    |   Right  |
+ * |  Ctrl  |  Alt  |  Cmd  | Lower | TC/Bcks  | TC/Space |  Raise  |  Down  |  Up    |   Right  |
  *  `-------+-------+-------+-------+---^^^----+---^^^----+---------+--------+--------+----------'
  */
-
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
 [_QWERTY] = KEYMAP_JD45(
     KC_TAB ,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_DEL , KC_BSPC,
-    CTL_ESC ,   KC_A, KC_S,LT_MC(KC_D),    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,    KC_QUOT     ,
+    CTL_ESC ,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,    KC_QUOT     ,
     KC_LSFT  ,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,    SFT_ENT    ,
-    KC_RGHT  ,  KC_LALT  ,  KC_LGUI  ,   LOWER   ,   TC_BKSP ,   TC_SP   ,    RAISE  ,  KC_DOWN  ,  KC_UP  , KC_RGHT),
+    KC_LCTL  ,  KC_LALT  ,  KC_LGUI  ,   LOWER   ,   TC_BKSP ,   TC_SP   ,    RAISE  ,  KC_DOWN  ,  KC_UP  , KC_RGHT),
 
 
 /* Lower
+ *
  * ,---------+------+------+------+------+------+------+------+------+------+------+------+------.
- * |   `     |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  |      | "|"  |
+ * |   `     |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  |      |  \   |
  * |---------`------`------`------`------`------`------`------`------`------`------`------`------|
- * |         |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   -  |  =   |   {  |   }  |            |
+ * |         |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   -  |  =   |      |      |             |
  * |----------`------`------`------`------`------`------`------`------`------`------`------------|
- * |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |   _  |   +  |   [  |   ]  |           |
+ * |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |   _  |   +  |      |      |           |
  * |-----------`------`------`------`------`-----'-------`------`------`------`------`-----------|
- * | Brite  |       |       |       |          |          |         |  Prev  |  Next  |   Mute   |
+ * | Brite  |       |       |       |          |          |         | Vol Dw | Vol Up |   Mute   |
  *  `-------+-------+-------+-------+---^^^----+---^^^----+---------+--------+--------+----------'
  */
 [_LOWER] = KEYMAP_JD45(
-    KC_GRV ,KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LCBR, KC_RCBR, _______, KC_PIPE ,
-    _______ ,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6, KC_MINS, KC_EQL, KC_LPRN, KC_RPRN,    _______       ,
-    _______  ,  KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12, KC_UNDS,  KC_PLUS, KC_LBRC, KC_RBRC,    _______    ,
-    BACKLIT  ,    _______,    _______,    _______,  _______  ,  _______  ,    _______,    KC_MPRV,    KC_MNXT, KC_MUTE),
+    KC_GRV ,KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LCBR, KC_RCBR, _______, KC_BSLS ,
+    _______ ,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6, KC_MINS, KC_EQL, _______, _______,    _______       ,
+    _______  ,  KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12, KC_UNDS,  KC_PLUS, _______, _______,    _______    ,
+    BACKLIT  ,    _______,    _______,    _______,  _______  ,  _______  ,    _______,    KC_VOLD,    KC_VOLU, KC_MUTE),
 
 
 /* Raise
+ *
  * ,---------+------+------+------+------+------+------+------+------+------+------+------+------.
- * |   0     |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |      |  "|" |
+ * |   0     |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |      |   \  |
  * |---------`------`------`------`------`------`------`------`------`------`------`------`------|
  * |          |   4  |   5  |   6  |   .  |   +  |      |      |      |      |      |            |
  * |----------`------`------`------`------`------`------`------`------`------`------`------------|
  * |           |   7  |   8  |   9  |   0  |   -  |      |      |      |      |      |           |
  * |-----------`------`------`------`------`-----'-------`------`------`------`------`-----------|
- * | Brite  |       |       |       |          |          |         |  Prev  |  Next  |   Mute   |
+ * | Brite  |       |       |       |          |          |         |  Prev  |  Play  |   Next   |
  *  `-------+-------+-------+-------+---^^^----+---^^^----+---------+--------+--------+----------'
  */
 [_RAISE] = KEYMAP_JD45(
-    KC_0   ,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0, _______, KC_PIPE,
+    KC_0   ,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0, _______, KC_BSLS,
     _______ ,   KC_4,    KC_5,    KC_6,  KC_DOT, KC_PLUS, _______, _______, _______, _______, _______,    _______     ,
     _______  ,   KC_7,    KC_8,    KC_9,    KC_0, KC_MINS, _______, _______, _______, _______, _______,    _______    ,
-    BACKLIT  ,    _______,    _______,    _______,  _______  ,  _______  ,    _______,    KC_MPRV,    KC_MNXT, KC_MUTE),
+    BACKLIT  ,    _______,    _______,    _______,  _______  ,  _______  ,    _______,    KC_MPRV,  KC_MPLY , KC_MNXT),
 
 
-/* TouchCursor layer (http://martin-stone.github.io/touchcursor/) plus personal customizations
+/* brackets and navigation
+ *
  * ,---------+------+------+------+------+------+------+------+------+------+------+------+------.
  * |         |      |      |  {   |   }  |      |      |      |      |      |      |      |      |
  * |---------`------`------`------`------`------`------`------`------`------`------`------`------|
@@ -138,52 +119,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |-----------`------`------`------`------`------`------`------`------`------`------`-----------|
  * |        |       |       |       |          |          |         |        |        |          |
  *  `-------+-------+-------+-------+---^^^----+---^^^----+---------+--------+--------+----------'
- *
- * The KC_UNDO, KC_CUT, KC_COPY, KC_PASTE, KC_FIND, and KC_AGAIN keycodes don't
- * seem to work on Mac. Presumably they'll work under Windows.
  */
-
-[_TOUCHCURSOR] = KEYMAP_JD45(
-/*,--------+-------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------.*/
+[_MOVE] = KEYMAP_JD45(
    _______, _______, _______, KC_LCBR, KC_RCBR, _______, _______, _______, _______, _______, _______, _______, _______,
-/*|--------`-------`--------`--------`--------`--------`--------`--------`--------`--------`--------`--------`--------|*/
     _______ ,_______, _______, KC_LPRN, KC_RPRN, _______, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,_______,     _______     ,
-/*|---------`-------`--------`--------`--------`--------`--------`--------`--------`--------`--------`----------------|*/
     _______  ,_______, _______, KC_LBRC, KC_RBRC, _______, KC_HOME,  KC_PGDN, KC_PGUP, KC_END, _______,    _______    ,
-/*|----------`-------`--------`--------`--------`--------`--------`--------`--------`--------`--------`---------------|*/
     _______  ,    _______,    _______,    _______, _______   , _______   ,    _______,    _______,    _______, _______),
-/*`----------+-----------+-----------+-----------+----^^^----+----^^^----+-----------+-----------+-----------+--------'*/
-
-
-/* Mouse Layer
- * ,---------+------+------+------+------+------+------+------+------+------+------+------+------.
- * |         |      |ACCL0 |      |      |      |      |WHL_L |  Up  |WHL_R | BTN2 |      |      |
- * |---------`------`------`------`------`------`------`------`------`------`------`------`------|
- * |          |ACCL2 | BTN2 |      | BTN1 |ACCL1 |WHL_Up| Left | Down |Right | BTN4 |   BTN5     |
- * |----------`------`------`------`------`------`------`------`------`------`------`------------|
- * |           |      |      |      | BTN3 |      |WHL_Dn| BTN1 |      |      | BTN3 |           |
- * |-----------`------`------`------`------`-----'-------`------`------`------`------`-----------|
- * |        |       |       |       |          |          |         |        |        |          |
- *  `-------+-------+-------+-------+---^^^----+---^^^----+---------+--------+--------+----------'
- */
-
-[_MOUSECURSOR] = KEYMAP_JD45(
-/*,--------+-------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------.*/
-    _______,_______, KC_ACL0, _______, _______, _______, _______, KC_WH_L, KC_MS_U, KC_WH_R, KC_BTN2, _______, _______,
-/*|--------`-------`--------`--------`--------`--------`--------`--------`--------`--------`--------`--------`--------|*/
-    _______ ,KC_ACL2, KC_BTN2, _______, KC_BTN1, KC_ACL1, KC_WH_U, KC_MS_L, KC_MS_D, KC_MS_R, KC_BTN4,    KC_BTN5     ,
-/*|---------`-------`--------`--------`--------`--------`--------`--------`--------`--------`--------`----------------|*/
-    _______  ,_______, _______, _______, KC_BTN3, _______, KC_WH_D, KC_BTN1, _______, _______, KC_BTN3,    _______    ,
-/*|----------`-------`--------`--------`--------`--------`--------`--------`--------`--------`--------`---------------|*/
-    _______  ,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______, _______),
-/*`----------+-----------+-----------+-----------+----^^^----+----^^^----+-----------+-----------+-----------+--------'*/
-
 
 /* Adjust (Lower + Raise)
+ *
  * ,---------+------+------+------+------+------+------+------+------+------+------+------+------.
- * |         |      |      |      |      |      |      |      |      |      |      |      | Del  |
+ * |         |      |      |      |      |      |      |      |      |      |      |      |      |
  * |---------`------`------`------`------`------`------`------`------`------`------`------`------|
- * |          |      |      |      |      |AGnorm|AGswap|Qwerty|      |      |      |            |
+ * |          |      |      |      |      |      |      |      |      |      |      |            |
  * |----------`------`------`------`------`------`------`------`------`------`------`------------|
  * |           |      |      |      |      |     |       |      |      |      |      |           |
  * |-----------`------`------`------`------`-----'-------`------`------`------`------`-----------|
@@ -191,15 +139,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *  `-------+-------+-------+-------+---^^^----+---^^^----+---------+--------+--------+----------'
  */
 [_ADJUST] = KEYMAP_JD45(
-/*,--------+-------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------.*/
-    _______,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL ,
-/*|--------`-------`--------`--------`--------`--------`--------`--------`--------`--------`--------`--------`--------|*/
-    _______ ,_______, _______, _______, _______, AG_NORM, AG_SWAP,  QWERTY, _______, _______, _______,    _______     ,
-/*|---------`-------`--------`--------`--------`--------`--------`--------`--------`--------`--------`----------------|*/
+    _______,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______ ,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,    _______     ,
     _______  ,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,    _______    ,
-/*|----------`-------`--------`--------`--------`--------`--------`--------`--------`--------`--------`---------------|*/
     _______  ,    _______,    _______,    _______,  _______  ,  _______  ,    _______,    _______,    _______,  RESET)
-/*`----------+-----------+-----------+-----------+----^^^----+----^^^----+-----------+-----------+-----------+--------'*/
+
+
 };
 
 void persistent_default_layer_set(uint16_t default_layer) {
@@ -250,60 +195,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-/*
- * Macro definition
- */
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-    if (!eeconfig_is_enabled()) {
-      eeconfig_init();
-    }
-
-    bool use_cmd = true;    // Use, for example, Cmd-Tab, Cmd-C, Cmd-V, etc.
-    // Compare to MAGIC_SWAP_ALT_GUI and MAGIC_UNSWAP_ALT_GUI configs, set in:
-    // quantum/quantum.c
-    if(keymap_config.swap_lalt_lgui == 1 && keymap_config.swap_ralt_rgui == 1) {
-      use_cmd = false;      // ... or, Alt-Tab, Ctrl-C, Ctrl-V, etc.
-    }
-
-    switch (id) {
-      case KC_ALT_TAB:
-        if(use_cmd) { return (record->event.pressed ? MACRO( D(LALT),  D(TAB), END ) : MACRO( U(TAB), END )); }
-        else        { return (record->event.pressed ? MACRO( D(LGUI),  D(TAB), END ) : MACRO( U(TAB), END )); }
-      case KC_CMD_TAB:
-        if(use_cmd) { return (record->event.pressed ? MACRO( D(LGUI),  D(TAB), END ) : MACRO( U(TAB), END )); }
-        else        { return (record->event.pressed ? MACRO( D(LALT),  D(TAB), END ) : MACRO( U(TAB), END )); }
-
-      case KC_CTL_TAB:
-        return (record->event.pressed ? MACRO( D(LCTRL), D(TAB), END ) : MACRO( U(TAB), END ));
-      case KC_CMD_SLSH:
-        return (record->event.pressed ? MACRO( D(LGUI),  D(SLSH),END ) : MACRO( U(SLSH),END ));
-
-      case KC_AG_FIND:
-        return use_cmd ? MACRODOWN( D(LGUI), T(F), END ) : MACRODOWN( D(LCTRL), T(F), END );
-      case KC_AG_AGAIN:
-        return use_cmd ? MACRODOWN( D(LGUI), T(G), END ) : MACRODOWN( D(LCTRL), T(G), END );
-      case KC_AG_UNDO:
-        return use_cmd ? MACRODOWN( D(LGUI), T(Z), END ) : MACRODOWN( D(LCTRL), T(Z), END );
-      case KC_AG_CUT:
-        return use_cmd ? MACRODOWN( D(LGUI), T(X), END ) : MACRODOWN( D(LCTRL), T(X), END );
-      case KC_AG_COPY:
-        return use_cmd ? MACRODOWN( D(LGUI), T(C), END ) : MACRODOWN( D(LCTRL), T(C), END );
-      case KC_AG_PASTE:
-        return use_cmd ? MACRODOWN( D(LGUI), T(V), END ) : MACRODOWN( D(LCTRL), T(V), END );
-
-      case KC_AG_DESK_L:
-        return use_cmd ? MACRODOWN( D(LGUI), D(LCTRL), T(SCLN), END ) : MACRODOWN( D(LALT), D(LCTRL), T(SCLN), END );
-      case KC_AG_DESK_R:
-        return use_cmd ? MACRODOWN( D(LGUI), D(LCTRL), T(QUOT), END ) : MACRODOWN( D(LALT), D(LCTRL), T(QUOT), END );
-
-      case KC_AG_TAB_C:
-        return use_cmd ? MACRODOWN( D(LGUI),            T(W), END ) : MACRODOWN( D(LCTRL),            T(W), END );
-      case KC_AG_TAB_N:
-        return use_cmd ? MACRODOWN( D(LGUI),            T(T), END ) : MACRODOWN( D(LCTRL),            T(T), END );
-      case KC_AG_TAB_R:
-        return use_cmd ? MACRODOWN( D(LGUI), D(LSHIFT), T(T), END ) : MACRODOWN( D(LCTRL), D(LSHIFT), T(T), END );
-    }
-
-    return MACRO_NONE;
-}
