@@ -17,25 +17,8 @@ enum planck_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
+  MOVE,
   BACKLIT
-};
-
-enum macro_keycodes {
-  KC_ALT_TAB,
-  KC_CMD_TAB,
-  KC_CTL_TAB,
-  KC_CMD_SLSH,
-  KC_AG_FIND,
-  KC_AG_AGAIN,
-  KC_AG_UNDO,
-  KC_AG_CUT,
-  KC_AG_COPY,
-  KC_AG_PASTE,
-  KC_AG_DESK_L,
-  KC_AG_DESK_R,
-  KC_AG_TAB_C,
-  KC_AG_TAB_N,
-  KC_AG_TAB_R,
 };
 
 // Fillers to make layering more clear
@@ -54,7 +37,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Qwerty
  *
  * ,---------+------+------+------+------+------+------+------+------+------+------+------+------.
- * |   Tab   |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp | Bksp |
+ * |   Tab   |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Del  | Bksp |
  * |---------`------`------`------`------`------`------`------`------`------`------`------`------|
  * | Ctrl/Esc |   A  |   S  |  D   |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |     '      |
  * |----------`------`------`------`------`------`------`------`------`------`------`------------|
@@ -67,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB ,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_DEL , KC_BSPC,
     CTL_ESC ,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,    KC_QUOT     ,
     KC_LSFT  ,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,    SFT_ENT    ,
-    KC_LCTL  ,  KC_LALT  ,  KC_LGUI  ,   LOWER   ,   TC_BKSP ,   TC_SP   ,    RAISE  ,  KC_RGUI  ,  KC_RALT  , KC_RCTL),
+    MOVE    ,  KC_LALT  ,  KC_LGUI  ,   LOWER   ,   TC_BKSP ,   TC_SP   ,    RAISE  ,  KC_RGUI  ,  KC_RALT  , KC_RCTL),
 
 
 /* Lower
@@ -75,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,---------+------+------+------+------+------+------+------+------+------+------+------+------.
  * |   `     |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |   (  |   )  |      |  \   |
  * |---------`------`------`------`------`------`------`------`------`------`------`------`------|
- * |         |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   -  |  =   |      |      |             |
+ * |          |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   -  |  =   |      |      |            |
  * |----------`------`------`------`------`------`------`------`------`------`------`------------|
  * |           |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |   _  |   +  |      |      |           |
  * |-----------`------`------`------`------`-----'-------`------`------`------`------`-----------|
@@ -92,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Raise
  *
  * ,---------+------+------+------+------+------+------+------+------+------+------+------+------.
- * |   0     |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |      |   \  |
+ * |   0     |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |      | Bksp |
  * |---------`------`------`------`------`------`------`------`------`------`------`------`------|
  * |          |   4  |   5  |   6  |   .  |   +  |      |      |      |      |      |            |
  * |----------`------`------`------`------`------`------`------`------`------`------`------------|
@@ -102,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *  `-------+-------+-------+-------+---^^^----+---^^^----+---------+--------+--------+----------'
  */
 [_RAISE] = KEYMAP_JD45(
-    KC_0   ,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0, _______, KC_BSLS,
+    KC_0   ,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0, _______, _______,
     _______ ,   KC_4,    KC_5,    KC_6,  KC_DOT, KC_PLUS, _______, _______, _______, _______, _______,    _______     ,
     _______  ,   KC_7,    KC_8,    KC_9,    KC_0, KC_MINS, _______, _______, _______, _______, _______,    _______    ,
     BACKLIT  ,    _______,    _______,    _______,  _______  ,  _______  ,    _______,    KC_MPRV,  KC_MPLY , KC_MNXT),
@@ -111,20 +94,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* brackets and navigation
  *
  * ,---------+------+------+------+------+------+------+------+------+------+------+------+------.
- * |         |      |      |  {   |   }  |      |      |      |      |      |      |      |      |
+ * |         |      |      |  {   |   }  |      |      |      |      |      |      | Home | PgUp |
  * |---------`------`------`------`------`------`------`------`------`------`------`------`------|
- * |          |      |      |  (   |   )  |      | Left | Down | Up   |Right |      |            |
+ * |          |      |      |  (   |   )  |      | Left | Down | Up   |Right | End  |    PgDw    |
  * |----------`------`------`------`------`------`------`------`------`------`------`------------|
- * |           |      |      |  [   |   ]  |      | Home | PgDw |PgUp  | End  |      |           |
+ * |           |      |      |  [   |   ]  |      | Home | PgDw |PgUp  | End  |  Up  |           |
  * |-----------`------`------`------`------`------`------`------`------`------`------`-----------|
- * |        |       |       |       |          |          |         |        |        |          |
+ * |        |       |       |       |          |          |         |  Left  |  Down  |   Right  |
  *  `-------+-------+-------+-------+---^^^----+---^^^----+---------+--------+--------+----------'
  */
 [_MOVE] = KEYMAP_JD45(
-   _______, _______, _______, KC_LCBR, KC_RCBR, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______ ,_______, _______, KC_LPRN, KC_RPRN, _______, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,_______,     _______     ,
-    _______  ,_______, _______, KC_LBRC, KC_RBRC, _______, KC_HOME,  KC_PGDN, KC_PGUP, KC_END, _______,    _______    ,
-    _______  ,    _______,    _______,    _______, _______   , _______   ,    _______,    _______,    _______, _______),
+    KC_GRV , _______, _______, KC_LCBR, KC_RCBR, _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGUP,
+    _______ , _______, _______, KC_LPRN, KC_RPRN, _______, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, KC_END,     KC_PGDN     ,
+    _______  , _______, _______, KC_LBRC, KC_RBRC, _______, KC_HOME,  KC_PGDN, KC_PGUP, KC_END, KC_UP  ,    _______    ,
+    _______  ,   _______,    _______,    _______, _______   , _______   ,    _______,    KC_LEFT,   KC_DOWN, KC_RGHT),
 
 /* Adjust (Lower + Raise)
  *
@@ -144,7 +127,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______  ,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,    _______    ,
     _______  ,    _______,    _______,    _______,  _______  ,  _______  ,    _______,    _______,    _______,  RESET)
 
-
 };
 
 void persistent_default_layer_set(uint16_t default_layer) {
@@ -154,12 +136,6 @@ void persistent_default_layer_set(uint16_t default_layer) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case QWERTY:
-      if (record->event.pressed) {
-        default_layer_set(1UL<<_QWERTY);
-      }
-      return false;
-      break;
     case LOWER:
       if (record->event.pressed) {
         layer_on(_LOWER);
@@ -177,6 +153,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       } else {
         layer_off(_RAISE);
         update_tri_layer(_LOWER, _RAISE, _ADJUST);
+      }
+      return false;
+      break;
+    case MOVE:
+      if (record->event.pressed) {
+        layer_on(_MOVE);
+      } else {
+        layer_off(_MOVE);
       }
       return false;
       break;
